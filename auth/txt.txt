@@ -1,0 +1,63 @@
+├── config
+├── public
+└── src
+   ├── inc
+   └── libs
+Code language: plaintext (plaintext)
+The following describes the purpose of each folder:
+
+Folder	Purpose
+config	Store the configuration file such as database configuration
+public	Store the public files accessed directly by the users
+src	Store the source files that should not be exposed to the public
+src/inc	Store the commonly included files such as the header and footer of a page
+src/libs	Store the library files, e.g., validation, sanitization, etc.
+
+http://localhost/auth/public/register.php
+Code language: plaintext (plaintext)
+To remove the public from the above URL, you can use the URL Rewrite module of the Apache Web Server. To do it, you need to use a .htaccess file.
+
+Second, create .htaccess file in the project root folder (auth) and use the following code:
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^$ public/ [L]
+    RewriteRule (.*) public/$1 [L]
+</IfModule>
+
+The above directives instruct Apache to remove the public from the URL. If you open the URL http://localhost/auth/register.php, you’ll see an error.
+
+To fix the error, you’ll need another .htaccess file in the public folder.
+
+Third, create another .htaccess in the public folder and use the following directives:
+
+<IfModule mod_rewrite.c>
+    Options -Multiviews
+    RewriteEngine On
+    RewriteBase /auth/public
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+</IfModule>
+Code language: plaintext (plaintext)
+Now, you can access the register.php page without using the /public/ in the URL like this:
+
+http://localhost/auth/register.php
+
+├── config
+|  └── database.php
+├── public
+|  └── register.php
+└── src
+   ├── auth.php
+   ├── bootstrap.php
+   ├── inc
+   |  ├── footer.php
+   |  └── header.php
+   ├── libs
+   |  ├── connection.php
+   |  ├── flash.php
+   |  ├── helpers.php
+   |  ├── sanitization.php
+   |  ├── validation.php
+   |  └── filter.php
+   └── register.php

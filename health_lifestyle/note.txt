@@ -1,0 +1,18 @@
+<?php 
+
+$db_host = 'localhost';
+$db_user = 'root';
+$db_password = '';
+$db_db = 'healthy_lifestylers';
+
+
+$connection = mysqli_connect($db_host, $db_user, $db_password, $db_db);
+
+if(!$connection){
+
+   die("Connection Failed: " . mysqli_connect_error());
+}
+
+// echo "Connection Successful!";
+
+?>
